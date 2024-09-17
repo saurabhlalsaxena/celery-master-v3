@@ -1,6 +1,7 @@
 from celery_app import app
 import requests
 from langserve import RemoteRunnable
+import asyncio
 
 # @app.task
 # def perplexity_clone_api_task(main_url: str, user_message: str, query_id: str):
@@ -24,7 +25,7 @@ from langserve import RemoteRunnable
 #         return {"answer": f"Error: {str(e)}"}
 
 @app.task(name='perplexity_clone_api')
-def perplexity_clone_api(main_url: str, user_message: str, query_id: str):
+async def perplexity_clone_api(main_url: str, user_message: str, query_id: str):
     api_url = f"{main_url}/api/v1/search"
     inputs = {
         "query": user_message,
@@ -32,7 +33,7 @@ def perplexity_clone_api(main_url: str, user_message: str, query_id: str):
     }
     remote_runnable = RemoteRunnable(api_url)
     try:
-        response = remote_runnable.invoke(input=inputs)
+        response = await remote_runnable.ainvoke(input=inputs)
     except:
         response = {'answer':"API call failed"}
 
