@@ -23,7 +23,7 @@ from langserve import RemoteRunnable
 #     except requests.RequestException as e:
 #         return {"answer": f"Error: {str(e)}"}
 
-@app.task
+@app.task(name='perplexity_clone_api')
 def perplexity_clone_api(main_url: str, user_message: str, query_id: str):
     api_url = f"{main_url}/api/v1/search"
     inputs = {

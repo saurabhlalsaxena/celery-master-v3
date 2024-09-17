@@ -10,5 +10,6 @@ app.conf.update(
     # Add other configurations as needed
 )
 
+
 if __name__ == '__main__':
     app.start()
